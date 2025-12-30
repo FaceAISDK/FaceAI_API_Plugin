@@ -6,6 +6,6 @@ import {OpenSwiftUI} from '../interface.uts'
  */
 export const openSwiftUI:OpenSwiftUI = function (title: string) {
     // 直接调用 Swift 类的静态方法
-    SwiftUIManager.showSwiftUIModal(title);
+    SwiftUIManager.showSwiftUIModal();
 }
 

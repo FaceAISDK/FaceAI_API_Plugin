@@ -7,7 +7,7 @@ import UIKit
 public class SwiftUIManager: NSObject {
     
     // 静态方法：显示视图
-    public static func showSwiftUIModal(_ title: String) {
+    public static func showSwiftUIModal(title: String) {
         // 确保系统版本支持 SwiftUI
         if #available(iOS 13.0, *) {
             // 获取当前的 UIWindow / RootViewController
@@ -18,9 +18,9 @@ public class SwiftUIManager: NSObject {
             
             // 创建 HostingController
             // 注意：这里需要处理 dismiss 逻辑
-            var hostingController: UIHostingController<MySwiftUIView>? = nil
+            var hostingController: UIHostingController<FaceAINaviView>? = nil
             
-            let swiftView = MySwiftUIView(title: title) {
+            let swiftView = FaceAINaviView() {
                 // 关闭回调
                 hostingController?.dismiss(animated: true, completion: nil)
             }

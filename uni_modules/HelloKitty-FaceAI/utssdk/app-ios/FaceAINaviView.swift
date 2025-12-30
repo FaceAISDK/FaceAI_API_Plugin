@@ -6,6 +6,10 @@ import FaceAISDK_Core
  *
  */
 struct FaceAINaviView: View {    
+	
+	// 1. 【新增】定义一个闭包属性，用来接收外部传入的关闭逻辑
+	var onDismiss: (() -> Void)?
+	
     @State private var navigationPath = NavigationPath()
     @State private var addFaceResult: String?
     
@@ -83,6 +87,18 @@ struct FaceAINaviView: View {
                 }
             }
             .navigationTitle("🧭 FaceAISDK")
+            // 2. 【新增】在导航栏添加一个关闭按钮，调用 onDismiss
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        // 点击时执行回调，通知 SwiftUIManager 关闭页面
+                        onDismiss?()
+                    }) {
+                        Image(systemName: "xmark.circle.fill") // 或者文字 "关闭"
+                            .foregroundColor(.gray)
+                    }
+                }
+            }
             .navigationDestination(for: FaceAINaviDestination.self) { destination in
                 switch destination {
                     

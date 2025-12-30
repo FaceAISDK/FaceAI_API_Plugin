@@ -1,0 +1,87 @@
+
+
+
+/**
+ * 打开 SwiftUI 弹窗
+ * @param title 弹窗标题
+ */
+export type OpenSwiftUI=(title: string)=> void
+
+
+/**
+ * 「1:1人脸识别」录入人脸信息
+ * 
+ * @param faceID 用户ID
+ * @param needShowConfirmDialog 是否需要显示确认框
+ * @param callback 结果回调
+ */
+export type AddFaceBySDKCamera = (
+	faceID : string,
+	addFacePerformanceMode:number,
+	needShowConfirmDialog:boolean,
+	callback : (result : ResultJSON) => void) => void
+	
+
+/**
+ * 业务方传给FaceAISDK 插件基础参数
+ */
+export type ResultJSON = {
+  code: number,       //code 含义参考Readme 
+  msg: string, 
+  faceID: string,     
+  faceFeature: string,  //人脸特征值
+  faceBase64: string    //人脸图Base64编码
+}
+
+
+
+
+
+
+
+
+// /**
+//  * interface.uts
+//  * uts插件接口定义文件，按规范定义接口文件可以在HBuilderX中更好的做到语法提示
+//  */
+
+// /**
+//  * myApi 异步函数的参数，在type里定义函数需要的参数以及api成功、失败的相关回调函数。
+//  */
+// export type MyApiOptions = {
+//   paramA : boolean
+//   success ?: (res : MyApiResult) => void
+//   fail ?: (res : MyApiFail) => void
+//   complete ?: (res : any) => void
+// }
+
+// /**
+//  * 函数返回结果
+//  * 可以是void, 基本数据类型，自定义type, 或者其他类型。
+//  * [可选实现]
+//  */
+// export type MyApiResult = {
+//   fieldA : number,
+//   fieldB : boolean,
+//   fieldC : string
+// }
+
+// /**
+//  * 错误码
+//  * 根据uni错误码规范要求，建议错误码以90开头，以下是错误码示例：
+//  * - 9010001 错误信息1
+//  * - 9010002 错误信息2
+//  */
+// export type MyApiErrorCode = 9010001 | 9010002;
+// /**
+//  * myApi 的错误回调参数
+//  */
+// export interface MyApiFail extends IUniError {
+//   errCode : MyApiErrorCode
+// };
+
+// /* 异步函数定义 */
+// export type MyApi = (options : MyApiOptions) => void
+
+// /* 同步函数定义 */
+// export type MyApiSync = (paramA : boolean) => MyApiResult

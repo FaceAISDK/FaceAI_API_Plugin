@@ -1,11 +1,46 @@
-import {OpenSwiftUI} from '../interface.uts'
-
+import { OpenSwiftUI, AddFaceBySDKCamera, ResultJSON } from '../interface.uts'
 
 /**
- * 实现接口
+ * 现有的打开演示页面
  */
-export const openSwiftUI:OpenSwiftUI = function () {
-    // 直接调用 Swift 类的静态方法
+export const openSwiftUI: OpenSwiftUI = function (title: string) {
     SwiftUIManager.showSwiftUIModal();
 }
 
+
+
+/**
+ * 实现录入人脸接口
+ * 
+ */
+export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
+    faceID: string, 
+    addFacePerformanceMode: number, 
+    needShowConfirmDialog: boolean, 
+    callback: (result: ResultJSON) => void
+) {
+    // 调用 Swift 的静态方法
+    // 注意：Swift 回调返回的是 JSON 字符串，我们需要在 UTS 层将其解析为 ResultJSON 对象
+    SwiftUIManager.showAddFaceByCamera(
+        faceID, 
+        addFacePerformanceMode, 
+        needShowConfirmDialog, 
+        (jsonStr: string) => {
+            // 解析 JSON 字符串
+            try {
+                const resObj = JSON.parse(jsonStr) as ResultJSON;
+                callback(resObj);
+            } catch (e) {
+                // 异常处理兜底
+                const errRes = {
+                    code: 999,
+                    msg: "JSON Parse Error: " + e.message,
+                    faceID: faceID,
+                    faceFeature: "",
+                    faceBase64: ""
+                } as ResultJSON;
+                callback(errRes);
+            }
+        }
+    );
+}

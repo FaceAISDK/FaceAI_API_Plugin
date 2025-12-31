@@ -2,6 +2,8 @@
     "version" : "1.0",
     "configurations" : [
         {
+            "customPlaygroundType" : "device",
+            "openVueDevtools" : true,
             "playground" : "custom",
             "type" : "uni-app:app-android"
         },
@@ -10,8 +12,9 @@
             "certificateFile" : "/Users/zlb/Desktop/iOS_Cer/证书.p12",
             "certificateProfileFile" : "/Users/zlb/Desktop/iOS_Cer/zcfadhoc.mobileprovision",
             "customPlaygroundType" : "local",
+            "openVueDevtools" : true,
             "playground" : "custom",
-            "runSignStatus" : 1,
+            "runSignStatus" : 0,
             "type" : "uni-app:app-ios"
         }
     ]

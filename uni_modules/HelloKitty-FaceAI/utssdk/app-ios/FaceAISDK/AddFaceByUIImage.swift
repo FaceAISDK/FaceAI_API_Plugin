@@ -9,7 +9,6 @@ public struct AddFaceByUIImage: View {
     @State private var isLoading = false
     @State private var canSave = false
 
-
     // 用于存储最终加载并用于显示的 SwiftUI Image ,会自动销毁吗？
     @State private var selectedImage: UIImage?
     

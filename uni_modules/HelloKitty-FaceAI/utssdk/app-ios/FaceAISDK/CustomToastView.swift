@@ -1,3 +1,5 @@
+
+
 import Foundation
 import SwiftUI
 
@@ -14,7 +16,8 @@ enum ToastStyle {
     case failure
     var backgroundColor: Color {
         switch self {
-        case .success: return Color.green        case .failure: return Color.yellow
+        case .success: return Color.brown
+        case .failure: return Color.yellow
         }
     }
 }

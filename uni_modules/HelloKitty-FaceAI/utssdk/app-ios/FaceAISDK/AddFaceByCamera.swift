@@ -30,7 +30,7 @@ public struct AddFaceByCamera: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 8)
                 .foregroundColor(.white)
-                .background(Color.green)
+                .background(Color.brown)
                 .cornerRadius(20)
             
             // 2. 核心区域：相机与确认弹窗的容器
@@ -79,7 +79,7 @@ public struct AddFaceByCamera: View {
             viewModel.initAddFace()
         }
         .onChange(of: viewModel.sdkInterfaceTips.code) { newValue in
-            print(" AddFaceBySDKCamera： \(viewModel.sdkInterfaceTips.message)")
+            print("🔔 AddFaceBySDKCamera： \(viewModel.sdkInterfaceTips.message)")
         }
         .onDisappear {
             viewModel.stopAddFace()
@@ -101,7 +101,7 @@ struct ConfirmAddFaceDialog: View {
             
             Text("Confirm Add Face")
                 .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(Color.green)
+                .foregroundColor(Color.brown)
                 .padding(.top, 16)
 
             Image(uiImage: viewModel.croppedFaceImage)
@@ -142,7 +142,7 @@ struct ConfirmAddFaceDialog: View {
                         .font(.system(size: 16, weight: .bold))
                         .frame(maxWidth: .infinity)
                         .frame(height: 44)
-                        .background(Color.green)
+                        .background(Color.brown)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }

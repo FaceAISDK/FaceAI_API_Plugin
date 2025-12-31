@@ -4,7 +4,7 @@ import {OpenSwiftUI} from '../interface.uts'
 /**
  * 实现接口
  */
-export const openSwiftUI:OpenSwiftUI = function (title: string) {
+export const openSwiftUI:OpenSwiftUI = function () {
     // 直接调用 Swift 类的静态方法
     SwiftUIManager.showSwiftUIModal();
 }

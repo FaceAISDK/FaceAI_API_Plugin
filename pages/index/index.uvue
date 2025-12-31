@@ -56,15 +56,6 @@
 					})
 			},
 			
-			
-			// /**
-			// * 打开测试
-			// * 
-			// */
-			// openSwiftUIDemo: function () {
-			// 	openSwiftUI(this.faceID)
-			// },
-			
 
 	   }			
 

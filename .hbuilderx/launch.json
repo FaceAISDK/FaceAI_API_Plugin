@@ -6,7 +6,12 @@
             "type" : "uni-app:app-android"
         },
         {
+            "bundleId" : "com.onewo.space.charge",
+            "certificateFile" : "/Users/zlb/Desktop/iOS_Cer/证书.p12",
+            "certificateProfileFile" : "/Users/zlb/Desktop/iOS_Cer/zcfadhoc.mobileprovision",
+            "customPlaygroundType" : "local",
             "playground" : "custom",
+            "runSignStatus" : 1,
             "type" : "uni-app:app-ios"
         }
     ]

@@ -5,11 +5,9 @@ import FaceAISDK_Core
  * iOS  FaceAISDK 功能导航页面，UI 仅供参考
  *
  */
-struct FaceAINaviView: View {    
-	
-	// 1. 【新增】定义一个闭包属性，用来接收外部传入的关闭逻辑
+struct FaceAINaviView: View {
+    // 1. 【新增】定义一个闭包属性，用来接收外部传入的关闭逻辑
 	var onDismiss: (() -> Void)?
-	
     @State private var navigationPath = NavigationPath()
     @State private var addFaceResult: String?
     
@@ -19,6 +17,7 @@ struct FaceAINaviView: View {
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ZStack {
+                Color.brown.ignoresSafeArea()
                 VStack(spacing: 20) {
                     
                     //通过SDK相机录入人脸
@@ -70,7 +69,6 @@ struct FaceAINaviView: View {
                     .foregroundColor(Color.white)
                     .padding(.top,33)
 
-
                     Spacer()
                     
                     Button("About us"){
@@ -87,7 +85,7 @@ struct FaceAINaviView: View {
                 }
             }
             .navigationTitle("🧭 FaceAISDK")
-            // 2. 【新增】在导航栏添加一个关闭按钮，调用 onDismiss
+			// 2. 【新增】在导航栏添加一个关闭按钮，调用 onDismiss
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -121,7 +119,7 @@ struct FaceAINaviView: View {
                 
                 case .VerifyFacePageView(let param):
                     //设置的相似度阈值threshold越高，对人脸角度，环境光线和摄像头宽动态要求越高
-                    VerifyFaceView(faceID: param,threshold: 0.83, onDismiss: { resultCode in
+                    VerifyFaceView(faceID: param,threshold: 0.85, onDismiss: { resultCode in
                         
                         // resultCode, 参考 VerifyResultCode
                         // -2  人脸识别动作活体检测超过10秒
@@ -160,6 +158,9 @@ struct FaceAINaviView: View {
             //在合适的场景，提前一点初始化FaceAISDK
             FaceAISDK.initSDK()
         }
+		// 3. 【核心修复】将 ignore 加在 NavigationStack 整体上
+        // 这样整个导航栈（包括导航栏区域）都会延伸到屏幕边缘
+        .ignoresSafeArea()
     }
     
 }

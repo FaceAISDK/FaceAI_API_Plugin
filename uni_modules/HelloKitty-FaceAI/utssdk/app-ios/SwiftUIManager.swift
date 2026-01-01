@@ -5,23 +5,7 @@ import FaceAISDK_Core
 @objcMembers
 public class SwiftUIManager: NSObject {
     
-    // MARK: - 现有方法
-    public static func showSwiftUIModal() {
-        guard let topVC = getTopViewController() else { return }
-        
-        var hostingController: UIHostingController<FaceAINaviView>? = nil
-        let swiftView = FaceAINaviView(onDismiss: {
-            hostingController?.dismiss(animated: true, completion: nil)
-        })
-        
-        hostingController = UIHostingController(rootView: swiftView)
-        hostingController?.modalPresentationStyle = .fullScreen
-        
-        topVC.present(hostingController!, animated: true, completion: nil)
-    }
-    
-
-    // MARK: - 【新增】录入人脸方法
+    // MARK: - 录入人脸方法
     public static func showAddFaceByCamera(_ faceID: String, 
                                            _ mode: NSNumber, 
                                            _ showConfirm: Bool, 
@@ -54,6 +38,48 @@ public class SwiftUIManager: NSObject {
         
         topVC.present(hostingController!, animated: true, completion: nil)
     }
+
+
+    // MARK: - 人脸识别
+    public static func showFaceVerify(_ faceID: String, 
+                                      _ threshold: NSNumber, 
+                                      _ faceLivenessType: NSNumber, 
+                                      _ callback: @escaping (String) -> Void) {
+        
+        // 定义变量名为 topVC
+        guard let topVC = getTopViewController() else {
+            print("Error: Could not find top ViewController")
+            return
+        }
+        
+        var hostingController: UIHostingController<VerifyFaceView>? = nil
+		
+        // 1. 处理阈值：NSNumber -> Float
+        let floatThreshold = threshold.floatValue
+        
+        // 2. 处理活体类型：NSNumber -> Int
+        let livenessTypeInt = faceLivenessType.intValue
+        
+        let sdkView = VerifyFaceView(
+            faceID: faceID,
+            threshold: floatThreshold, 
+            onDismiss: { resultJsonString in
+                hostingController?.dismiss(animated: true) {
+                    let finalResult = resultJsonString ?? "{ \"code\": 500, \"msg\": \"Unknown error\" }"
+                    callback(finalResult)
+                }
+            }
+        )
+        
+        hostingController = UIHostingController(rootView: sdkView)
+        hostingController?.modalPresentationStyle = .fullScreen
+        
+        topVC.present(hostingController!, animated: true, completion: nil)
+    }
+
+
+
+
 
 
     // MARK: - 【辅助方法】获取顶层控制器

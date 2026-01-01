@@ -1,11 +1,4 @@
-import { OpenSwiftUI, AddFaceBySDKCamera, ResultJSON } from '../interface.uts'
-
-/**
- * 现有的打开演示页面
- */
-export const openSwiftUI: OpenSwiftUI = function (title: string) {
-    SwiftUIManager.showSwiftUIModal();
-}
+import { AddFaceBySDKCamera, FaceVerify, ResultJSON } from '../interface.uts'
 
 
 
@@ -43,4 +36,41 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
             }
         }
     );
+}
+
+
+
+/**
+ * 「1:1人脸识别」跳转到Android SDK 中原生页面处理人脸识别+活体检测
+ */
+export const faceVerify : FaceVerify = function (
+	faceID: string ,
+	threshold: number,
+	faceLivenessType:number,
+	callback : (result : ResultJSON) => void
+) {
+	SwiftUIManager.showFaceVerify(
+	    faceID, 
+	    threshold,
+	    faceLivenessType,
+	    // motionLivenessTypes,
+	    (jsonStr: string) => {
+	        // 解析 JSON 字符串
+	        try {
+	            const resObj = JSON.parse(jsonStr) as ResultJSON;
+	            callback(resObj);
+	        } catch (e) {
+	            // 异常处理兜底
+	            const errRes = {
+	                code: 999,
+	                msg: "JSON Parse Error: " + e.message,
+	                faceID: faceID,
+	                faceFeature: "",
+	                faceBase64: ""
+	            } as ResultJSON;
+	            callback(errRes);
+	        }
+	    }
+	);
+
 }

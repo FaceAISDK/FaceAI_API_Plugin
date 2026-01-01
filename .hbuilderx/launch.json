@@ -2,16 +2,16 @@
     "version" : "1.0",
     "configurations" : [
         {
-            "customPlaygroundType" : "device",
+            "customPlaygroundType" : "local",
             "openVueDevtools" : true,
             "playground" : "custom",
             "type" : "uni-app:app-android"
         },
         {
             "bundleId" : "com.onewo.space.charge",
-            "certificateFile" : "/Users/zlb/Desktop/iOS_Cer/证书.p12",
-            "certificateProfileFile" : "/Users/zlb/Desktop/iOS_Cer/zcfadhoc.mobileprovision",
-            "customPlaygroundType" : "local",
+            "certificateFile" : "/Users/anylife/uniApp/dis/证书.p12",
+            "certificateProfileFile" : "/Users/anylife/uniApp/dis/zcfadhoc.mobileprovision",
+            "customPlaygroundType" : "device",
             "openVueDevtools" : true,
             "playground" : "custom",
             "runSignStatus" : 0,

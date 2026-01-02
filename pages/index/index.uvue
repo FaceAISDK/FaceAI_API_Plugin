@@ -69,6 +69,7 @@
 					this.faceID,
 					0.85,      // 阈值设置，范围限 [0.75,0.95] ,默认0.85
 					2,         // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
+					this.motionLivenessType,
 					 (result: ResultJSON) => {
 						this.faceAIResult =JSON.stringify(result)
 					})

@@ -90,6 +90,7 @@ export const faceVerify : FaceVerify = function (
 	faceID : string,
 	threshold:number,
 	faceLivenessType:number,
+	motionLivenessTypes:string,
 	callback : (result : ResultJSON) => void
 ) {
 	const context = UTSAndroid.getUniActivity() as Activity
@@ -99,7 +100,7 @@ export const faceVerify : FaceVerify = function (
 	intent.putExtra(FaceVerificationActivity.USER_FACE_ID_KEY, faceID);
     intent.putExtra(FaceVerificationActivity.THRESHOLD_KEY,threshold);
     intent.putExtra(FaceVerificationActivity.FACE_LIVENESS_TYPE,faceLivenessType);
-    // intent.putExtra(FaceVerificationActivity.MOTION_LIVENESS_TYPES,motionLivenessTypes);
+    intent.putExtra(FaceVerificationActivity.MOTION_LIVENESS_TYPES,motionLivenessTypes);
 	context.startActivityForResult(intent, 10087)
 
 	UTSAndroid.onAppActivityResult((requestCode : Int, resultCode : Int, intentAct?: Intent) => {

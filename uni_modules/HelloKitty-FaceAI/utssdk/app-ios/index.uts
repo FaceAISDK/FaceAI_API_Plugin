@@ -18,22 +18,15 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
         faceID, 
         addFacePerformanceMode, 
         needShowConfirmDialog, 
-        (jsonStr: string) => {
-            // 解析 JSON 字符串
-            try {
-                const resObj = JSON.parse(jsonStr) as ResultJSON;
-                callback(resObj);
-            } catch (e) {
-                // 异常处理兜底
-                const errRes = {
-                    code: 999,
-                    msg: "JSON Parse Error: " + e.message,
-                    faceID: faceID,
-                    faceFeature: "",
-                    faceBase64: ""
-                } as ResultJSON;
-                callback(errRes);
-            }
+        (faceFeature: string) => {
+			const errRes = {
+			    code: 0,
+			    msg: "状态码解释",
+			    faceID: faceID,
+			    faceFeature: faceFeature,
+			    faceBase64: ""
+			} as ResultJSON;
+			callback(errRes);
         }
     );
 }
@@ -47,29 +40,24 @@ export const faceVerify : FaceVerify = function (
 	faceID: string ,
 	threshold: number,
 	faceLivenessType:number,
+	motionLivenessTypes:string,
 	callback : (result : ResultJSON) => void
 ) {
 	SwiftUIManager.showFaceVerify(
 	    faceID, 
-	    threshold,
-	    faceLivenessType,
-	    // motionLivenessTypes,
-	    (jsonStr: string) => {
-	        // 解析 JSON 字符串
-	        try {
-	            const resObj = JSON.parse(jsonStr) as ResultJSON;
-	            callback(resObj);
-	        } catch (e) {
-	            // 异常处理兜底
-	            const errRes = {
-	                code: 999,
-	                msg: "JSON Parse Error: " + e.message,
-	                faceID: faceID,
-	                faceFeature: "",
-	                faceBase64: ""
-	            } as ResultJSON;
-	            callback(errRes);
-	        }
+		threshold,
+		faceLivenessType,
+		motionLivenessTypes,
+	    (resultCode: number) => {
+			
+			const errRes = {
+			    code: resultCode,
+			    msg: "状态码解释",
+			    faceID: faceID,
+			    faceFeature: "",
+			    faceBase64: ""
+			} as ResultJSON;
+			callback(errRes);
 	    }
 	);
 

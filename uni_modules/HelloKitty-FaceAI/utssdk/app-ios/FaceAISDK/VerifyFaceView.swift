@@ -179,9 +179,6 @@ struct VerifyFaceView: View {
                     dismiss()
                 }
             }
-            
-            
-            
         }
         .onDisappear {
              withAnimation(.easeInOut(duration: 0.3)) {

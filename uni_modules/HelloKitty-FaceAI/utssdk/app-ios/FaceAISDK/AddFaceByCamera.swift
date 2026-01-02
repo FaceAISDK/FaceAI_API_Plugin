@@ -14,6 +14,7 @@ public struct AddFaceByCamera: View {
     let onDismiss: (String?) -> Void
     
     @StateObject private var viewModel: AddFaceByCameraModel = AddFaceByCameraModel()
+    @State private var showToast = false
     
     // 辅助函数：获取本地化提示
     private func localizedTip(for code: Int) -> String {
@@ -23,75 +24,114 @@ public struct AddFaceByCamera: View {
     }
     
     public var body: some View {
-        VStack(spacing: 22) {
-            // 1. 顶部提示区域
-            Text(localizedTip(for: viewModel.sdkInterfaceTips.code))
-                .font(.system(size: 19).bold())
-                .padding(.horizontal, 20)
-                .padding(.vertical, 8)
-                .foregroundColor(.white)
-                .background(Color.brown)
-                .cornerRadius(20)
-            
-            // 2. 核心区域：相机与确认弹窗的容器
-            // 使用 ZStack 让两者重叠在同一区域
-            ZStack {
-                // 图层 A: 相机预览 (底层)
-                FaceAICameraView(session: viewModel.captureSession, cameraSize: FaceCameraSize)
-                    .aspectRatio(1.0, contentMode: .fit)
-                    .clipShape(Circle()) // 裁剪为圆形
-                    .background(Circle().fill(Color.white)) // 相机背景
-                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+        // 🔴 修改点1：使用 ZStack 作为根容器，以便 Toast 能悬浮在最上层
+        ZStack {
+            // MARK: - 主内容区域
+            VStack(spacing: 22) {
+                // 1. 顶部提示区域
+                Text(localizedTip(for: viewModel.sdkInterfaceTips.code))
+                    .font(.system(size: 19).bold())
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
+                    .foregroundColor(.white)
+                    .background(Color.brown)
+                    .cornerRadius(20)
                 
-                // 图层 B: 确认对话框 (顶层)
-                if viewModel.readyConfirmFace {
-                    // 黑色半透明遮罩，突出 Dialog
-                    Color.black.opacity(0.3)
-                        .clipShape(Circle())
+                // 2. 核心区域：相机与确认弹窗的容器
+                ZStack {
+                    // 图层 A: 相机预览 (底层)
+                    FaceAICameraView(session: viewModel.captureSession, cameraSize: FaceCameraSize)
+                        .aspectRatio(1.0, contentMode: .fit)
+                        .clipShape(Circle()) // 裁剪为圆形
+                        .background(Circle().fill(Color.white)) // 相机背景
+                        .overlay(Circle().stroke(Color.gray, lineWidth: 1))
                     
-                    ConfirmAddFaceDialog(
-                        viewModel: viewModel,
-                        cameraSize: FaceCameraSize,
-                        onConfirm: {
-                            // 保存人脸特征值
-                            UserDefaults.standard.set(viewModel.faceFeatureBySDKCamera, forKey: faceID)
-                            print("FaceFeature: \(String(describing: viewModel.faceFeatureBySDKCamera))")
-
-                            // 人脸图保存逻辑
-                            let _ = viewModel.confirmSaveFace(fileName: faceID)
-
-                            onDismiss(viewModel.faceFeatureBySDKCamera)
-                        }
+                    // 图层 B: 确认对话框 (顶层)
+                    if viewModel.readyConfirmFace {
+                        // 黑色半透明遮罩
+                        Color.black.opacity(0.3)
+                            .clipShape(Circle())
+                        
+                        ConfirmAddFaceDialog(
+                            viewModel: viewModel,
+                            cameraSize: FaceCameraSize,
+                            onConfirm: {
+                                print("FaceFeature: \(String(describing: viewModel.faceFeatureBySDKCamera))")
+                                
+                                // 保存人脸特征值
+                                UserDefaults.standard.set(viewModel.faceFeatureBySDKCamera, forKey: faceID)
+                                
+                                // 触发 Toast
+                                withAnimation {
+                                    showToast = true
+                                }
+                                
+                                // 延迟关闭页面，让用户看清 Toast（可选）
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    onDismiss(viewModel.faceFeatureBySDKCamera)
+                                }
+                            }
+                        )
+                        .transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .frame(width: FaceCameraSize, height: FaceCameraSize)
+                .animation(.easeInOut(duration: 0.25), value: viewModel.readyConfirmFace)
+                
+                Spacer()
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white.ignoresSafeArea())
+            // 生命周期事件
+            .onAppear {
+                viewModel.initAddFace()
+            }
+            .onChange(of: viewModel.sdkInterfaceTips.code) { newValue in
+                print("🔔 AddFaceBySDKCamera： \(viewModel.sdkInterfaceTips.message)")
+            }
+            .onDisappear {
+                viewModel.stopAddFace()
+            }
+            
+            // MARK: - Toast 弹窗区域 (悬浮层)
+            // 🔴 修改点2：修复 Toast 逻辑
+            if showToast {
+                // 1. 尝试获取 faceFeature
+                let rawFeature = UserDefaults.standard.string(forKey: faceID)
+                
+                // 2. 准备显示内容：如果有值则使用值，如果为 nil 则显示错误提示
+                let displayMessage = rawFeature ?? "错误：未找到人脸特征信息"
+                
+                // 3. 根据结果决定样式 (假设你的 ToastStyle 有 .success 和 .error)
+                let displayStyle: ToastStyle = (rawFeature != nil) ? .success : .failure
+                
+                VStack {
+                    Spacer()
+                    CustomToastView(
+                        message: displayMessage,
+                        style: displayStyle
                     )
-                    // 增加淡入动画
-                    .transition(.scale.combined(with: .opacity))
+                    .padding(.bottom, 77)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .zIndex(100) // 确保在最上层
+                .onAppear {
+                    // 自动消失逻辑：2秒后关闭 Toast
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        withAnimation {
+                            showToast = false
+                        }
+                    }
                 }
             }
-            .frame(width: FaceCameraSize, height: FaceCameraSize) // 强制容器尺寸一致
-            .animation(.easeInOut(duration: 0.25), value: viewModel.readyConfirmFace)
-            
-            Spacer()
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white.ignoresSafeArea())
-        .onAppear {
-            viewModel.initAddFace()
-        }
-        .onChange(of: viewModel.sdkInterfaceTips.code) { newValue in
-            print("🔔 AddFaceBySDKCamera： \(viewModel.sdkInterfaceTips.message)")
-        }
-        .onDisappear {
-            viewModel.stopAddFace()
         }
     }
 }
 
-
-
-// MARK: - 确认对话框组件
+// ... ConfirmAddFaceDialog 保持不变 ...
 struct ConfirmAddFaceDialog: View {
-    // 使用 @ObservedObject 监听变化，或者让父视图传递（这里沿用你的 let，因为父视图是 StateObject）
     let viewModel: AddFaceByCameraModel
     let cameraSize: CGFloat
     let onConfirm: () -> Void
@@ -156,6 +196,3 @@ struct ConfirmAddFaceDialog: View {
         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
     }
 }
-
-
-

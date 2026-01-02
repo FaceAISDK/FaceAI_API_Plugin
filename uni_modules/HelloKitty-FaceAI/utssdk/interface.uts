@@ -26,6 +26,7 @@ export type FaceVerify = (
 	faceID : string,
 	threshold : number,
 	faceLivenessType : number, 
+	motionLivenessTypes : string,
 	callback : (result : ResultJSON) => void) => void	
 	
 	
@@ -38,7 +39,7 @@ export type ResultJSON = {
   msg: string, 
   faceID: string,     
   faceFeature: string,  //人脸特征值
-  faceBase64: string    //人脸图Base64编码
+  faceBase64: string    //人脸图Base64编码 换个含义
 }
 
 

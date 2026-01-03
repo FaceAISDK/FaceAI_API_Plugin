@@ -172,7 +172,6 @@ public class FaceSDKSwiftManager: NSObject {
             onDismiss: { resultCode in
 			    DispatchQueue.main.async {
 					hostingController?.dismiss(animated: true) {
-
 					    callback(resultCode) //0用户取消  1添加成功
 					}
 				}

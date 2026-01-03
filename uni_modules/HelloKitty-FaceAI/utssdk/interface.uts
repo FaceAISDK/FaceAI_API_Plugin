@@ -44,6 +44,27 @@ export type LivenessVerify = (
 	callback : (result : ResultJSON) => void) => void	
 	
 	
+	
+	
+	
+//「1:1人脸识别」检测人脸是否存在
+export type OnCheckFaceExist = (
+    faceID: string, 
+	callback: (result: ResultJSON) => void) => void
+	
+/**
+ * 「1:1人脸识别」同步人脸特征指到SDK，比如用户换设备登陆了，把上次录入到你的业务服务器上的人脸同步就行
+ * 
+ * @param faceFeature 人脸特征值得长度1024.20251202新版本SDK人脸数据合规处理不在接收人脸图参数
+ * @param callback 结果回调
+ */
+export type InsertFace = (
+    faceID : string,
+	faceFeature : string,
+	callback : (result : ResultJSON) => void) => void	
+	
+	
+	
 
 /**
  * 业务方传给FaceAISDK 插件基础参数

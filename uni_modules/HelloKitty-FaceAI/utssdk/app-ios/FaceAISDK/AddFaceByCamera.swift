@@ -9,12 +9,11 @@ var FaceCameraSize: CGFloat {
     7 * min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) / 10
 }
 
-struct AddFaceByCamera: View {
+public struct AddFaceByCamera: View {
     let faceID: String
-    let onDismiss: (String?) -> Void
+    let onDismiss: (Int) -> Void //0 用户取消， 1 添加成功
     
     @StateObject private var viewModel: AddFaceByCameraModel = AddFaceByCameraModel()
-    @State private var showToast = false
     
     // 辅助函数：获取本地化提示
     private func localizedTip(for code: Int) -> String {
@@ -23,11 +22,27 @@ struct AddFaceByCamera: View {
         return NSLocalizedString(key, value: defaultValue, comment: "")
     }
     
-    var body: some View {
-        // 🔴 修改点1：使用 ZStack 作为根容器，以便 Toast 能悬浮在最上层
+    public var body: some View {
         ZStack {
-            // MARK: - 主内容区域
-            VStack(spacing: 22) {
+            VStack(spacing: 20) {
+                // 自定义顶部栏 (关闭按钮)
+                HStack {
+                    Button(action: {
+                        onDismiss(0)  //取消
+                    }) {
+                        Image(systemName: "chevron.left") // 使用系统图标 "xmark" 或 "chevron.left"
+                            .fontWeight(.semibold)
+                            .font(.system(size: 16))
+                            .foregroundColor(.black) // 图标颜色
+                            .padding(10) // 增加点击区域和内边距
+                            .background(Color.gray.opacity(0.1)) // 浅灰色圆形背景
+                            .clipShape(Circle())
+                    }
+                    Spacer() // 将按钮推到左边
+                }
+                .padding(.horizontal, 2)
+                .padding(.top, 10) // 顶部留白
+                
                 // 1. 顶部提示区域
                 Text(localizedTip(for: viewModel.sdkInterfaceTips.code))
                     .font(.system(size: 19).bold())
@@ -57,18 +72,11 @@ struct AddFaceByCamera: View {
                             cameraSize: FaceCameraSize,
                             onConfirm: {
                                 print("FaceFeature: \(String(describing: viewModel.faceFeatureBySDKCamera))")
-                                
                                 // 保存人脸特征值
                                 UserDefaults.standard.set(viewModel.faceFeatureBySDKCamera, forKey: faceID)
                                 
-                                // 触发 Toast
-                                withAnimation {
-                                    showToast = true
-                                }
-                                
-                                // 延迟关闭页面，让用户看清 Toast（可选）
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                    onDismiss(viewModel.faceFeatureBySDKCamera)
+                                    onDismiss(1)
                                 }
                             }
                         )
@@ -83,6 +91,11 @@ struct AddFaceByCamera: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white.ignoresSafeArea())
+            // 隐藏系统导航栏和返回按钮
+            .navigationBarBackButtonHidden(true)
+            .toolbar(.hidden, for: .navigationBar) // iOS 16+ 隐藏导航栏
+            //.navigationBarHidden(true) // 如果需要兼容 iOS 15 及以下，请解开此行注释
+            
             // 生命周期事件
             .onAppear {
                 viewModel.initAddFace()
@@ -93,45 +106,11 @@ struct AddFaceByCamera: View {
             .onDisappear {
                 viewModel.stopAddFace()
             }
-            
-            // MARK: - Toast 弹窗区域 (悬浮层)
-            // 🔴 修改点2：修复 Toast 逻辑
-            if showToast {
-                // 1. 尝试获取 faceFeature
-                // let rawFeature = UserDefaults.standard.string(forKey: faceID)
-				let rawFeature = viewModel.faceFeatureBySDKCamera
-                
-                // 2. 准备显示内容：如果有值则使用值，如果为 nil 则显示错误提示
-                let displayMessage = rawFeature ?? "错误：未找到人脸特征信息 \(faceID)"
-                
-                // 3. 根据结果决定样式 (假设你的 ToastStyle 有 .success 和 .error)
-                let displayStyle: ToastStyle = (rawFeature != nil) ? .success : .failure
-                
-                VStack {
-                    Spacer()
-                    CustomToastView(
-                        message: displayMessage,
-                        style: displayStyle
-                    )
-                    .padding(.bottom, 77)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .transition(.move(edge: .bottom).combined(with: .opacity))
-                .zIndex(100) // 确保在最上层
-                .onAppear {
-                    // 自动消失逻辑：2秒后关闭 Toast
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        withAnimation {
-                            showToast = false
-                        }
-                    }
-                }
-            }
         }
     }
 }
 
-// ... ConfirmAddFaceDialog 保持不变 ...
+//ConfirmAddFaceDialog 保持不变
 struct ConfirmAddFaceDialog: View {
     let viewModel: AddFaceByCameraModel
     let cameraSize: CGFloat

@@ -1,4 +1,4 @@
-import { AddFaceBySDKCamera, FaceVerify, LivenessVerify, ResultJSON } from '../interface.uts'
+import { AddFaceBySDKCamera, FaceVerify, InsertFace, LivenessVerify, OnCheckFaceExist, ResultJSON } from '../interface.uts'
 
 
 
@@ -14,19 +14,31 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
 ) {
     // 调用 Swift 的静态方法
     // 注意：Swift 回调返回的是 JSON 字符串，我们需要在 UTS 层将其解析为 ResultJSON 对象
-    SwiftUIManager.showAddFaceByCamera(
+    FaceSDKSwiftManager.showAddFaceByCamera(
         faceID, 
         addFacePerformanceMode, 
         needShowConfirmDialog, 
-        (faceFeature: string) => {
-			const errRes = {
-			    code: 0,
-			    msg: "状态码解释",
-			    faceID: faceID,
-			    faceFeature: faceFeature,
-			    faceBase64: ""
-			} as ResultJSON;
-			callback(errRes);
+        (resultCode: number) => {
+			//resultCode ：0用户取消  1添加成功
+            let message = "";
+            if (resultCode == 1) {
+                message = "人脸录入成功";
+            } else if (resultCode == 0) {
+                message = "用户取消录入";
+            } else {
+                message = "未知状态";
+            }
+            let feature = FaceSDKSwiftManager.getFaceFeature(faceID)
+
+            const errRes = {
+                code: resultCode,
+                msg: message,   
+                faceID: faceID,
+                faceFeature: feature,  
+                faceBase64: ""
+            } as ResultJSON;
+            
+            callback(errRes);
         }
     );
 }
@@ -43,7 +55,7 @@ export const faceVerify : FaceVerify = function (
 	motionLivenessTypes:string,
 	callback : (result : ResultJSON) => void
 ) {
-	SwiftUIManager.showFaceVerify(
+	FaceSDKSwiftManager.showFaceVerify(
 	    faceID, 
 		threshold,
 		faceLivenessType,
@@ -73,7 +85,7 @@ export const livenessVerify : LivenessVerify = function (
 	motionLivenessTypes:string,
 	callback : (result : ResultJSON) => void
 ) {
-	SwiftUIManager.showLivenessVerify(
+	FaceSDKSwiftManager.showLivenessVerify(
 		faceLivenessType,
 		motionLivenessTypes,
 	    (resultCode: number) => {
@@ -88,5 +100,53 @@ export const livenessVerify : LivenessVerify = function (
 			callback(errRes);
 	    }
 	);
+
+}
+
+
+
+/**
+ * 「1:1人脸识别」调用原生的FaceAISDK 检测功能人脸是否存在
+ */
+export const onCheckFaceExist : OnCheckFaceExist = function 
+             (faceID : string, callback : (re : ResultJSON) => void) {
+				 
+		FaceSDKSwiftManager.isFaceFeatureExist(
+			faceID,
+		    (resultCode: number) => {
+				
+				const errRes = {
+				    code: resultCode,
+				    msg: "1:exist  0:not exist",
+				    faceID: "",
+				    faceFeature: "",
+				    faceBase64: ""
+				} as ResultJSON;
+				callback(errRes);
+		    }
+		);
+}
+ 
+/**
+ *  「1:1人脸识别」同步人脸图片到SDK，比如用户换设备登陆了，把上次录入到你的业务服务器上的人脸同步就行
+ */
+export const insertFace : InsertFace = function 
+              (faceID : string, faceFeature : string, callback : (result : ResultJSON) => void) {
+
+        FaceSDKSwiftManager.insertFaceFeature(
+        	faceID,
+        	faceFeature,
+            (resultCode: number) => {
+        		
+        		const errRes = {
+        		    code: resultCode,
+				    msg: "1:success  0:failed",
+        		    faceID: "",
+        		    faceFeature: "",
+        		    faceBase64: ""
+        		} as ResultJSON;
+        		callback(errRes);
+            }
+        );
 
 }

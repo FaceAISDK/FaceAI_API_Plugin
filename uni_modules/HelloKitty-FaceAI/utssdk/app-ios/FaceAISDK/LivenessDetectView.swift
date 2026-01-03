@@ -31,6 +31,27 @@ struct LivenessDetectView: View {
         ZStack {
             // --- 底层：主内容 ---
             VStack {
+                // MARK: - [新增] 自定义顶部栏 (关闭按钮)
+                HStack {
+                    Button(action: {
+                        // 0 代表用户取消
+                        onDismiss(0)
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .fontWeight(.semibold)
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+                            .padding(10)
+                            .background(Color.gray.opacity(0.1))
+                            .clipShape(Circle())
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 10)
+                .padding(.top, 10)
+                
+                // 原有内容
                 Text(localizedTip(for: viewModel.sdkInterfaceTips.code))
                     .font(.system(size: 20).bold())
                     .padding(.horizontal, 20)
@@ -56,6 +77,9 @@ struct LivenessDetectView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity) // 确保主视图撑满
             .background(viewModel.colorFlash.ignoresSafeArea())
+            // [新增] 隐藏系统导航栏
+            .navigationBarBackButtonHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
 
              if showToast {
                 VStack {
@@ -151,17 +175,3 @@ struct LivenessDetectView: View {
         .animation(.easeInOut(duration: 0.3), value: showToast) // 统一控制 Toast 动画
     }
 }
-
-// -2  人脸识别动作活体检测超过10秒
-// -1  多次切换人脸或检查失败
-// 0   默认值
-// 1   人脸识别对比成功大于设置的threshold
-// 2   人脸识别对比识别小于设置的threshold
-// 3   动作活体检测成功
-// 4   动作活体超时
-// 5   多次没有检测到人脸
-// 6   没有对应的人脸特征值
-// 7   炫彩活体成功
-// 8   炫彩活体失败
-// 9   炫彩活体失败，光线亮度过高
-// 10  所有的活体检测完成(包括动作和炫彩)

@@ -8,9 +8,9 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "FaceAI人脸识别Demo",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#0e4f05",
 		"backgroundColor": "#F8F8F8"
 	},
 	"uniIdRouter": {}

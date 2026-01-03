@@ -3,6 +3,8 @@
 		<button @tap="addFaceFeatureBySDKCameraDemo">SDK相机录入人脸</button>
 		<button @tap="faceVerifyDemo">人脸识别+活体检测</button>
 		<button @tap="livenessVerifyDemo">炫彩｜动作 活体检测</button>
+		<button @tap="checkFaceExistDemo">检测人脸是否存在</button>
+		<button @tap="insertFaceFeature">同步人脸特征信息</button>
 		<view class="result-box">
 		      <view> Email: FaceAISDK.Service@gmail.com</view>
 		      <scroll-view scroll-y="true" class="scroll-view-box">
@@ -14,7 +16,7 @@
 
 
 <script> 
-	import {addFaceBySDKCamera,faceVerify,livenessVerify,ResultJSON} from "@/uni_modules/HelloKitty-FaceAI";
+	import {addFaceBySDKCamera,faceVerify,livenessVerify,onCheckFaceExist,insertFace,ResultJSON} from "@/uni_modules/HelloKitty-FaceAI";
  
 	export default {
 		  
@@ -91,6 +93,31 @@
 					2,         // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
 					this.motionLivenessType,
 					 (result: ResultJSON) => {
+						this.faceAIResult =JSON.stringify(result)
+					})
+			},
+			
+			
+			
+			/**
+			* 4. 1:1 人脸识别检测是否本地有faceID人脸特征值
+			*/
+			checkFaceExistDemo: function () {
+				onCheckFaceExist(
+					this.faceID,
+					 (result: ResultJSON) => {
+						this.faceAIResult ="OK："+JSON.stringify(result)						
+					})
+			}, 
+			
+			/**
+			* 5. 演示同步1:1人脸特征值到SDK
+			*/
+			insertFaceFeature: function () {
+				insertFace(
+				    this.faceID,
+					this.faceFeature,
+					(result: ResultJSON) => {
 						this.faceAIResult =JSON.stringify(result)
 					})
 			},

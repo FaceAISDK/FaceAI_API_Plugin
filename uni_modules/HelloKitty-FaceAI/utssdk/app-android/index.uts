@@ -1,4 +1,4 @@
-import {AddFaceBySDKCamera,FaceVerify,ResultJSON} from '../interface.uts'
+import {AddFaceBySDKCamera,FaceVerify,InsertFace,LivenessVerify,OnCheckFaceExist,ResultJSON} from '../interface.uts'
 
 import Application from 'android.app.Application';
 import Activity from 'android.app.Activity';
@@ -136,4 +136,100 @@ export const faceVerify : FaceVerify = function (
 
 
 
+
+
+/**
+ * 跳转到Android SDK 中原生页面处理人脸识别活体检测
+ * 
+ * @param faceID 用户ID
+ * @param callback 结果回调
+ */
+export const livenessVerify : LivenessVerify = function (
+	faceLivenessType:number,
+	motionLivenessTypes:string,
+	callback : (result : ResultJSON) => void
+) {
+	const context = UTSAndroid.getUniActivity() as Activity
+	FaceSDKConfig.init(context);
+	const intent = new Intent(context, LivenessDetectActivity().javaClass)
+    intent.putExtra(LivenessDetectActivity.FACE_LIVENESS_TYPE,faceLivenessType);
+	intent.putExtra(LivenessDetectActivity.MOTION_LIVENESS_TYPES,motionLivenessTypes);
+	
+	context.startActivityForResult(intent, 10089)
+
+	UTSAndroid.onAppActivityResult((requestCode : Int, resultCode : Int, intentAct?: Intent) => {
+		if (requestCode == 10089) {
+			if(intentAct!=null){
+				const codeNow:number = intentAct.getIntExtra("code",0) as number
+				const msgNow:string=intentAct.getStringExtra("msg") as string
+
+				//活体检测通过后的人脸图，用户可以用这张图做进一步其他处理
+				const livefaceBase64:string=BitmapUtils.bitmapToBase64(FaceSDKConfig.CACHE_FACE_LOG_DIR+"liveBitmap")
+				
+				const resultJson:ResultJSON={
+					faceFeature:"",
+					code:codeNow,
+					msg:msgNow,
+					faceID:"",
+					faceBase64:livefaceBase64
+				} 
+				callback(resultJson)
+			}else{
+				const resultJson:ResultJSON={
+					code:1,
+					msg:"data == null",
+					faceID:"",
+					faceBase64:"",
+					faceFeature:""
+				}	
+				callback(resultJson)
+			}
+		} 
+	});
+}
+
+
+
+
+ 
+/**
+ * 「1:1人脸识别」调用原生的FaceAISDK 检测功能人脸是否存在
+ */
+export const onCheckFaceExist : OnCheckFaceExist = function (faceID : string, callback : (re : ResultJSON) => void) {
+	const context = UTSAndroid.getAppContext() as Application
+	FaceSDKConfig.init(context);
+	
+	FaceAISDKNative.isFaceExistKotlin(context,faceID, function (result : UTSJSONObject) {
+		
+			const resultJson:ResultJSON={
+				code:result.getNumber("code") as number,
+				msg:result.getString("msg") as string,
+				faceID:faceID,
+				faceBase64:"?",
+				faceFeature:result.getString("faceFeature") as string
+			}
+			
+		callback(resultJson)
+	})
+}
+ 
+/**
+ *  「1:1人脸识别」同步人脸图片到SDK，比如用户换设备登陆了，把上次录入到你的业务服务器上的人脸同步就行
+ */
+export const insertFace : InsertFace = function (faceID : string, faceFeature : string, callback : (result : ResultJSON) => void) {
+	const context = UTSAndroid.getAppContext() as Application
+	FaceSDKConfig.init(context);
+	
+	FaceAISDKNative.insertFaceKotlin(faceID,faceFeature,context, function (result : UTSJSONObject) {
+		const resultJson:ResultJSON={
+				code:result.getNumber("code") as number,
+				msg:result.getString("msg") as string,
+				faceID:faceID,
+				faceBase64:"",
+				faceFeature:""
+			}	
+		callback(resultJson)
+	})
+}
+ 
  

@@ -14,7 +14,7 @@
 
 
 <script> 
-	import {addFaceBySDKCamera,faceVerify,ResultJSON} from "@/uni_modules/HelloKitty-FaceAI";
+	import {addFaceBySDKCamera,faceVerify,livenessVerify,ResultJSON} from "@/uni_modules/HelloKitty-FaceAI";
  
 	export default {
 		  
@@ -87,11 +87,12 @@
 		    * 5 多次检测到画面无人脸
 		    */
 			livenessVerifyDemo: function () {
-				// livenessVerify(
-				// 	param,
-				// 	 (result: ResultJSON) => {
-				// 		this.faceAIResult =JSON.stringify(result)
-				// 	})
+				livenessVerify(
+					2,         // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
+					this.motionLivenessType,
+					 (result: ResultJSON) => {
+						this.faceAIResult =JSON.stringify(result)
+					})
 			},
 			
 

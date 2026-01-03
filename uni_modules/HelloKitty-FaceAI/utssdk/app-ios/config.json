@@ -1,16 +1,10 @@
 {
   "deploymentTarget": "16",
-  "frameworks": [
-      "Frameworks/FaceAISDK_Core.xcframework"
-  ],
+  "frameworks": [],
   "dependencies-pods": [      
 	{
-		"name": "TensorFlowLiteSwift",
-		"version": "2.17.0"
-	},
-	{
-		"name": "GoogleMLKit/FaceDetection",
-		"version": "9.0.0"
+	  	"name": "FaceAISDK_Core",
+	  	"version": "2025.12.30"
 	}
 	]
 }

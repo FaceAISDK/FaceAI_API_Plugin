@@ -6,11 +6,51 @@ import FaceAISDK_Core
 public class SwiftUIManager: NSObject {
 	
 	
+	
+	
+	// MARK: - 活体检测
+	public static func showLivenessVerify(_ livenessType: NSNumber,
+	                                      _ motionLivenessTypes: String,
+	                                      _ callback: @escaping (NSNumber) -> Void) {
+	    
+	    // 定义变量名为 topVC
+	    guard let topVC = getTopViewController() else {
+	        print("Error: Could not find top ViewController")
+	        return
+	    }
+	    
+	    var hostingController: UIHostingController<LivenessDetectView>? = nil
+	    let faceLivenessTypeInt = livenessType.intValue
+	    
+	    let sdkView = LivenessDetectView(
+	        livenessType: faceLivenessTypeInt,
+	        motionLiveness: motionLivenessTypes, 
+	        onDismiss: { (resultCode: Int) in // 假设 LivenessDetectView 返回的是 Int
+	            
+	            DispatchQueue.main.async {
+	                hostingController?.dismiss(animated: true) {
+	                    // ✅ 修复点2：显式将 Int 转换为 NSNumber
+	                    let numberCode = NSNumber(value: resultCode)
+	                    callback(numberCode)
+	                }
+	            }
+	        }
+	    )
+	    
+	    hostingController = UIHostingController(rootView: sdkView)
+	    hostingController?.modalPresentationStyle = .fullScreen
+	    
+	    topVC.present(hostingController!, animated: true, completion: nil)
+	}
+	
+	
+	
+	
 
 	// MARK: - 人脸识别
 	public static func showFaceVerify(_ faceID: String,
 	                                  _ threshold: NSNumber,
-	                                  _ faceLivenessType: NSNumber,
+	                                  _ livenessType: NSNumber,
 	                                  _ motionLivenessTypes: String,
 	                                  _ callback: @escaping (NSNumber) -> Void) {
 	    
@@ -23,9 +63,13 @@ public class SwiftUIManager: NSObject {
 	    var hostingController: UIHostingController<VerifyFaceView>? = nil
 	    
 		let floatThreshold = threshold.floatValue
+		let faceLivenessTypeInt = livenessType.intValue
+		
         let sdkView = VerifyFaceView(
             faceID: faceID,
             threshold: floatThreshold, 
+			livenessType: faceLivenessTypeInt,
+			motionLiveness: motionLivenessTypes, 
             onDismiss: { (resultCode: Int) in // 假设 VerifyFaceView 返回的是 Int
                 
                 DispatchQueue.main.async {
@@ -63,6 +107,8 @@ public class SwiftUIManager: NSObject {
             print("❌ Error: Could not find top ViewController")
             return
         }
+		
+		print("faceID \(faceID)")
         
         var hostingController: UIHostingController<AddFaceByCamera>? = nil
         

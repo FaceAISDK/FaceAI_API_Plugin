@@ -9,7 +9,7 @@ var FaceCameraSize: CGFloat {
     7 * min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) / 10
 }
 
-public struct AddFaceByCamera: View {
+struct AddFaceByCamera: View {
     let faceID: String
     let onDismiss: (String?) -> Void
     
@@ -23,7 +23,7 @@ public struct AddFaceByCamera: View {
         return NSLocalizedString(key, value: defaultValue, comment: "")
     }
     
-    public var body: some View {
+    var body: some View {
         // 🔴 修改点1：使用 ZStack 作为根容器，以便 Toast 能悬浮在最上层
         ZStack {
             // MARK: - 主内容区域
@@ -98,10 +98,11 @@ public struct AddFaceByCamera: View {
             // 🔴 修改点2：修复 Toast 逻辑
             if showToast {
                 // 1. 尝试获取 faceFeature
-                let rawFeature = UserDefaults.standard.string(forKey: faceID)
+                // let rawFeature = UserDefaults.standard.string(forKey: faceID)
+				let rawFeature = viewModel.faceFeatureBySDKCamera
                 
                 // 2. 准备显示内容：如果有值则使用值，如果为 nil 则显示错误提示
-                let displayMessage = rawFeature ?? "错误：未找到人脸特征信息"
+                let displayMessage = rawFeature ?? "错误：未找到人脸特征信息 \(faceID)"
                 
                 // 3. 根据结果决定样式 (假设你的 ToastStyle 有 .success 和 .error)
                 let displayStyle: ToastStyle = (rawFeature != nil) ? .success : .failure

@@ -2,8 +2,8 @@
 	"name": "FaceAI_API_Plugin",
 	"appid": "__UNI__0989B91",
 	"description": "",
-	"versionName": "1.0.5",
-	"versionCode": "105",
+	"versionName": "1.0.9",
+	"versionCode": "109",
 	"uni-app-x": {},
 	/* 快应用特有相关 */
 	"quickapp": {},

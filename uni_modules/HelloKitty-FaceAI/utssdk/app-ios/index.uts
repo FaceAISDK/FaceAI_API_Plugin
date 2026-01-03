@@ -1,4 +1,4 @@
-import { AddFaceBySDKCamera, FaceVerify, ResultJSON } from '../interface.uts'
+import { AddFaceBySDKCamera, FaceVerify, LivenessVerify, ResultJSON } from '../interface.uts'
 
 
 
@@ -54,6 +54,34 @@ export const faceVerify : FaceVerify = function (
 			    code: resultCode,
 			    msg: "状态码解释",
 			    faceID: faceID,
+			    faceFeature: "",
+			    faceBase64: ""
+			} as ResultJSON;
+			callback(errRes);
+	    }
+	);
+
+}
+
+
+
+/**
+ * 「1:1人脸识别」跳转到Android SDK 中原生页面处理人脸识别+活体检测
+ */
+export const livenessVerify : LivenessVerify = function (
+	faceLivenessType:number,
+	motionLivenessTypes:string,
+	callback : (result : ResultJSON) => void
+) {
+	SwiftUIManager.showLivenessVerify(
+		faceLivenessType,
+		motionLivenessTypes,
+	    (resultCode: number) => {
+			
+			const errRes = {
+			    code: resultCode,
+			    msg: "状态码解释",
+			    faceID: "",
 			    faceFeature: "",
 			    faceBase64: ""
 			} as ResultJSON;

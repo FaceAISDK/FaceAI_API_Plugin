@@ -44,6 +44,29 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
 }
 
 
+/**
+ * 【新增】工具函数：根据状态码获取提示文案
+ * 统一管理所有接口的返回状态
+ */
+function getMsgByCode(code: number): string {
+    switch (code) {
+        case -2: return "检测超时(超过10秒)";
+        case -1: return "检查失败/多次切换人脸";
+        case 0: return "用户取消/中断操作";
+        case 1: return "操作成功"; // 也就是 verifySuccess / addSuccess
+        case 2: return "人脸相似度过低(认证失败)";
+        case 3: return "动作活体检测成功";
+        case 4: return "动作活体检测超时";
+        case 5: return "多次未检测到人脸";
+        case 6: return "本地无对应人脸特征值";
+        case 7: return "炫彩活体成功";
+        case 8: return "炫彩活体失败";
+        case 9: return "环境光线过强(炫彩失败)";
+        case 10: return "活体检测全部通过";
+        default: return "未知状态码: " + code;
+    }
+}
+
 
 /**
  * 「1:1人脸识别」跳转到Android SDK 中原生页面处理人脸识别+活体检测
@@ -64,7 +87,7 @@ export const faceVerify : FaceVerify = function (
 			
 			const errRes = {
 			    code: resultCode,
-			    msg: "状态码解释",
+			    msg: getMsgByCode(resultCode),
 			    faceID: faceID,
 			    faceFeature: "",
 			    faceBase64: ""
@@ -89,10 +112,9 @@ export const livenessVerify : LivenessVerify = function (
 		faceLivenessType,
 		motionLivenessTypes,
 	    (resultCode: number) => {
-			
 			const errRes = {
 			    code: resultCode,
-			    msg: "状态码解释",
+			    msg: getMsgByCode(resultCode),
 			    faceID: "",
 			    faceFeature: "",
 			    faceBase64: ""

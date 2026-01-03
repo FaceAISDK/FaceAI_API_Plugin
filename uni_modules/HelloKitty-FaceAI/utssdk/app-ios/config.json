@@ -4,7 +4,7 @@
   "dependencies-pods": [      
 	{
 	  	"name": "FaceAISDK_Core",
-	  	"version": "2025.12.30"
+	  	"version": "2025.12.31"
 	}
 	]
 }

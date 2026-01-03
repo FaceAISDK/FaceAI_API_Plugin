@@ -12,8 +12,7 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
     needShowConfirmDialog: boolean, 
     callback: (result: ResultJSON) => void
 ) {
-    // 调用 Swift 的静态方法
-    // 注意：Swift 回调返回的是 JSON 字符串，我们需要在 UTS 层将其解析为 ResultJSON 对象
+
     FaceSDKSwiftManager.showAddFaceByCamera(
         faceID, 
         addFacePerformanceMode, 
@@ -50,10 +49,10 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
  */
 function getMsgByCode(code: number): string {
     switch (code) {
-        case -2: return "检测超时(超过10秒)";
-        case -1: return "检查失败/多次切换人脸";
+        case -2: return " ";
+        case -1: return " ";
         case 0: return "用户取消/中断操作";
-        case 1: return "操作成功"; // 也就是 verifySuccess / addSuccess
+        case 1: return "操作成功verifySuccess";  
         case 2: return "人脸相似度过低(认证失败)";
         case 3: return "动作活体检测成功";
         case 4: return "动作活体检测超时";
@@ -63,7 +62,7 @@ function getMsgByCode(code: number): string {
         case 8: return "炫彩活体失败";
         case 9: return "环境光线过强(炫彩失败)";
         case 10: return "活体检测全部通过";
-        default: return "未知状态码: " + code;
+        default: return "未知状态码" ;
     }
 }
 

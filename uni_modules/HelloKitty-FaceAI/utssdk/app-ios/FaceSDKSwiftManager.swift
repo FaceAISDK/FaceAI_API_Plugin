@@ -126,7 +126,7 @@ public class FaceSDKSwiftManager: NSObject {
             threshold: floatThreshold, 
 			livenessType: faceLivenessTypeInt,
 			motionLiveness: motionLivenessTypes, 
-            onDismiss: { (resultCode: Int) in // 假设 VerifyFaceView 返回的是 Int
+            onDismiss: { (resultCode: Int) in 
                 
                 DispatchQueue.main.async {
                     hostingController?.dismiss(animated: true) {
@@ -145,10 +145,6 @@ public class FaceSDKSwiftManager: NSObject {
 	}
 	
 	
-	
-	
-	
-	
     
     // MARK: - 录入人脸方法
     public static func showAddFaceByCamera(_ faceID: String, 
@@ -162,17 +158,16 @@ public class FaceSDKSwiftManager: NSObject {
             print("❌ Error: Could not find top ViewController")
             return
         }
-		
-		print("faceID \(faceID)")
-        
+		        
         var hostingController: UIHostingController<AddFaceByCamera>? = nil
         
         let sdkView = AddFaceByCamera(
             faceID: faceID,
-            onDismiss: { resultCode in
+            onDismiss: { (resultCode: Int) in 
 			    DispatchQueue.main.async {
 					hostingController?.dismiss(animated: true) {
-					    callback(resultCode) //0用户取消  1添加成功
+						let numberCode = NSNumber(value: resultCode)
+					    callback(numberCode) //0用户取消  1添加成功
 					}
 				}
             }

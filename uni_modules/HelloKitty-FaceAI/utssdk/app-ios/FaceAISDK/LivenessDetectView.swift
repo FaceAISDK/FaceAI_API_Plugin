@@ -119,7 +119,7 @@ struct LivenessDetectView: View {
 						    // 调试代码：如果加载失败，显示一个红块，并打印路径帮助排查
 						    Color.red
 						        .frame(height: 120)
-						        .overlay(Text(Target Bundle Path: \(pluginBundle.bundlePath)).foregroundColor(.white))
+						        .overlay(Text("Target Bundle Path: \(pluginBundle.bundlePath)").foregroundColor(.white))
 						        .onAppear {
 						            print("❌ Debug: Image load failed.")
 						            print("   Target Bundle Path: \(pluginBundle.bundlePath)")

@@ -1,4 +1,4 @@
-import {AddFaceBySDKCamera,FaceVerify,InsertFace,LivenessVerify,OnCheckFaceExist,ResultJSON} from '../interface.uts'
+import {AddFaceBySDKCamera,FaceVerify,InsertFaceFeature,LivenessVerify,GetFaceFeature,ResultJSON} from '../interface.uts'
 
 import Application from 'android.app.Application';
 import Activity from 'android.app.Activity';
@@ -197,7 +197,7 @@ export const livenessVerify : LivenessVerify = function (
 /**
  * 「1:1人脸识别」调用原生的FaceAISDK 检测功能人脸是否存在
  */
-export const onCheckFaceExist : OnCheckFaceExist = function (faceID : string, callback : (re : ResultJSON) => void) {
+export const getFaceFeature : GetFaceFeature = function (faceID : string, callback : (re : ResultJSON) => void) {
 	const context = UTSAndroid.getAppContext() as Application
 	FaceSDKConfig.init(context);
 	
@@ -218,7 +218,7 @@ export const onCheckFaceExist : OnCheckFaceExist = function (faceID : string, ca
 /**
  *  「1:1人脸识别」同步人脸图片到SDK，比如用户换设备登陆了，把上次录入到你的业务服务器上的人脸同步就行
  */
-export const insertFace : InsertFace = function (faceID : string, faceFeature : string, callback : (result : ResultJSON) => void) {
+export const insertFaceFeature : InsertFaceFeature = function (faceID : string, faceFeature : string, callback : (result : ResultJSON) => void) {
 	const context = UTSAndroid.getAppContext() as Application
 	FaceSDKConfig.init(context);
 	

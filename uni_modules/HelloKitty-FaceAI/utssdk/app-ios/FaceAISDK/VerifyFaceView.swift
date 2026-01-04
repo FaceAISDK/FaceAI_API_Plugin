@@ -42,7 +42,7 @@ struct VerifyFaceView: View {
                         onDismiss(0)
                         dismiss()
                     }) {
-                        Image(systemName: "xmark")
+                        Image(systemName: "chevron.left")
                             .fontWeight(.semibold)
                             .font(.system(size: 16))
                             .foregroundColor(.black)

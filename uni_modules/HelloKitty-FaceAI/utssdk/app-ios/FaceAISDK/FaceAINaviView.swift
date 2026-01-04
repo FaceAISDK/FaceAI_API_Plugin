@@ -9,7 +9,6 @@ struct FaceAINaviView: View {
     // 1. 【新增】定义一个闭包属性，用来接收外部传入的关闭逻辑
     var onDismiss: (() -> Void)?
     @State private var navigationPath = NavigationPath()
-    @State private var addFaceResult: String?
     
     //录入保存的FaceID 值。一般是你的业务体系中个人的唯一编码，比如账号 身份证
     private let faceID="yourFaceID";
@@ -85,24 +84,12 @@ struct FaceAINaviView: View {
                 }
             }
             .navigationTitle("🧭 FaceAISDK")
-            // 2. 【新增】在导航栏添加一个关闭按钮，调用 onDismiss
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        // 点击时执行回调，通知 SwiftUIManager 关闭页面
-                        onDismiss?()
-                    }) {
-                        Image(systemName: "xmark.circle.fill") // 或者文字 "关闭"
-                            .foregroundColor(.gray)
-                    }
-                }
-            }
             .navigationDestination(for: FaceAINaviDestination.self) { destination in
                 switch destination {
                     
                 case .AddFacePageView(let param):
                     AddFaceByCamera(faceID: param,onDismiss: { result in
-                        addFaceResult = result
+                        // result //0 用户取消， 1 添加成功
                         if !navigationPath.isEmpty { // 检查路径是否为空
                             navigationPath.removeLast()
                         }
@@ -111,7 +98,7 @@ struct FaceAINaviView: View {
                 case .AddFaceFromAlbum(let param):
 
                     AddFaceByUIImage(faceID: param,onDismiss: { result in
-                        addFaceResult = result
+                        // result //0 用户取消， 1 添加成功
                         if !navigationPath.isEmpty { // 检查路径是否为空
                             navigationPath.removeLast()
                         }
@@ -124,8 +111,6 @@ struct FaceAINaviView: View {
                                    motionLiveness:motionLiveness,onDismiss: { resultCode in
                         
                         // resultCode, 参考 VerifyResultCode
-                        // -2  人脸识别动作活体检测超过10秒
-                        // -1  多次切换人脸或检查失败
                         // 0   默认值
                         // 1   人脸识别对比成功大于设置的threshold
                         // 2   人脸识别对比识别小于设置的threshold

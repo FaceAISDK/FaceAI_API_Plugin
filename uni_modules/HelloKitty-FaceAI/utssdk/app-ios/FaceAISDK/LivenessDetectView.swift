@@ -57,7 +57,7 @@ struct LivenessDetectView: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 9)
                     .foregroundColor(.white)
-                    .background(Color.brown) // 假设 Color.brown 为 blue
+                    .background(Color.brown) //假设 Color.brown 为 blue
                     .cornerRadius(20)
                 
                 Text(localizedTip(for: viewModel.sdkInterfaceTipsExtra.code))
@@ -86,7 +86,7 @@ struct LivenessDetectView: View {
                     Spacer() // 将 Toast 推到底部
                     CustomToastView(
                         message: "\(viewModel.faceVerifyResult.tips)",
-                        style: .success // 假设你的 ToastStyle
+                        style: .success  
                     )
                      .padding(.bottom, 77)
                 }
@@ -105,11 +105,14 @@ struct LivenessDetectView: View {
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                             .padding(.horizontal,9)
-                        
-                        Image("light_too_high")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 120)
+
+						let pluginBundle = Bundle(for: LivenessDetectView.self) 
+							
+						// 2. 使用 bundle 参数加载图片
+						Image("light_too_high", bundle: pluginBundle)
+							    .resizable()
+							    .scaledToFit()
+							    .frame(height: 120)
                         
                         Button(action: {
                             withAnimation {
@@ -149,7 +152,7 @@ struct LivenessDetectView: View {
         }
         .onChange(of: viewModel.faceVerifyResult.code) { newValue in
             if newValue == VerifyResultCode.COLOR_LIVENESS_LIGHT_TOO_HIGH{
-                //光线太强了，弹出一个Dialog,dialog 上面显示文字viewModel.faceVerifyResult.msg,中间一张图，下面一个知道了按钮
+                //光线太强了，弹出一个提示Dialog, 上面显示文字viewModel.Result.msg
                 withAnimation {
                     showLightHighDialog = true
                 }

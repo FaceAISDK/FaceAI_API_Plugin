@@ -11,7 +11,7 @@
             "bundleId" : "com.onewo.space.charge",
             "certificateFile" : "/Users/anylife/uniApp/dis/证书.p12",
             "certificateProfileFile" : "/Users/anylife/uniApp/dis/zcfadhoc.mobileprovision",
-            "customPlaygroundType" : "local",
+            "customPlaygroundType" : "device",
             "openVueDevtools" : true,
             "playground" : "custom",
             "runSignStatus" : 1,

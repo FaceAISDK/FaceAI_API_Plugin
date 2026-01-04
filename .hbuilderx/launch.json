@@ -11,9 +11,9 @@
             "bundleId" : "com.onewo.space.charge",
             "certificateFile" : "/Users/zlb/ios_code/iOS_Cer/证书.p12",
             "certificateProfileFile" : "/Users/zlb/ios_code/iOS_Cer/zcfadhoc.mobileprovision",
-            "customPlaygroundType" : "device",
+            "customPlaygroundType" : "local",
             "openVueDevtools" : true,
-            "playground" : "standard",
+            "playground" : "custom",
             "runSignStatus" : 1,
             "type" : "uni-app:app-ios"
         }

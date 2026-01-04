@@ -106,7 +106,7 @@ struct LivenessDetectView: View {
                             .foregroundColor(.black)
                             .padding(.horizontal,9)
 
-						let pluginBundle = Bundle(for: LivenessDetectView.self) 
+						let pluginBundle = Bundle(for: BundleFinder.self) 
 							
 						// 2. 使用 bundle 参数加载图片
 						Image("light_too_high", bundle: pluginBundle)
@@ -178,3 +178,5 @@ struct LivenessDetectView: View {
         .animation(.easeInOut(duration: 0.3), value: showToast) // 统一控制 Toast 动画
     }
 }
+// 添加这个空类，专门用来定位 Bundle
+private class BundleFinder {}

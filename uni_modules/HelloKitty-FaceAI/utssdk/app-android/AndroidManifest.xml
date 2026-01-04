@@ -1,10 +1,20 @@
 <!-- AndroidManifest.xml -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="uts.sdk.modules.uniFaceAISDK">
 
     <application>
 
+        <activity
+            android:name=".SysCamera.verify.FaceVerificationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FaceAISDK.Fullscreen"
+			tools:replace="android:theme" />
 
+        <activity
+            android:name=".SysCamera.verify.LivenessDetectActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FaceAISDK.Fullscreen" />
 		
     </application>
 

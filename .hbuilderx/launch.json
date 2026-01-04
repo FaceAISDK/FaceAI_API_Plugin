@@ -2,7 +2,7 @@
     "version" : "1.0",
     "configurations" : [
         {
-            "customPlaygroundType" : "local",
+            "customPlaygroundType" : "device",
             "openVueDevtools" : true,
             "playground" : "custom",
             "type" : "uni-app:app-android"

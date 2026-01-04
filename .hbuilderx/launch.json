@@ -9,11 +9,11 @@
         },
         {
             "bundleId" : "com.onewo.space.charge",
-            "certificateFile" : "/Users/anylife/uniApp/dis/证书.p12",
-            "certificateProfileFile" : "/Users/anylife/uniApp/dis/zcfadhoc.mobileprovision",
+            "certificateFile" : "/Users/zlb/ios_code/iOS_Cer/证书.p12",
+            "certificateProfileFile" : "/Users/zlb/ios_code/iOS_Cer/zcfadhoc.mobileprovision",
             "customPlaygroundType" : "device",
             "openVueDevtools" : true,
-            "playground" : "custom",
+            "playground" : "standard",
             "runSignStatus" : 1,
             "type" : "uni-app:app-ios"
         }

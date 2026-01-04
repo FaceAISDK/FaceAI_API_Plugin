@@ -101,11 +101,11 @@ export const livenessVerify : LivenessVerify = function (
 	motionLivenessTypes:string,
 	callback : (result : ResultJSON) => void
 ) {
-	let msg = getMsgByCode(resultCode);
 	FaceSDKSwiftManager.showLivenessVerify(
 		faceLivenessType,
 		motionLivenessTypes,
 	    (resultCode: number) => {
+		   let msg = getMsgByCode(resultCode);
            const resultJson = {
                 code: resultCode,
                 msg: msg,

@@ -24,7 +24,7 @@
 "Face_Tips_Code_1" = "没有检测到人脸";
 "Face_Tips_Code_2" = "检测到多个人脸";
 "Face_Tips_Code_3" = "请靠近一点";
-"Face_Tips_Code_4" = "录入中，保持正脸不晃动";
+"Face_Tips_Code_4" = "录入中,保持正脸不晃动";
 "Face_Tips_Code_5" = "不要闭眼睛";
 "Face_Tips_Code_6" = "向右摆正头部";
 "Face_Tips_Code_7" = "向左摆正头部";
@@ -51,7 +51,7 @@
 "Face_Tips_Code_45" = "请点头";
 
 /* Color Liveness (Flash) */
-"Face_Tips_Code_50" = "屏幕即将闪烁，请靠近";
+"Face_Tips_Code_50" = "屏幕即将闪烁,请靠近";
 "Face_Tips_Code_51" = "炫彩活体成功";
 "Face_Tips_Code_52" = "炫彩活体失败";
 "Face_Tips_Code_53" = "炫彩活体检测失败,光线亮度过高;如图遮挡高亮光源或室内光线柔和环境使用";

@@ -38,7 +38,7 @@ struct LivenessDetectView: View {
                         onDismiss(0)
                         dismiss()
                     }) {
-                        Image(systemName: "xmark")
+                        Image(systemName: "chevron.left")
                             .fontWeight(.semibold)
                             .font(.system(size: 16))
                             .foregroundColor(.black)
@@ -108,11 +108,26 @@ struct LivenessDetectView: View {
 
 						let pluginBundle = Bundle(for: BundleFinder.self) 
 							
-						// 2. 使用 bundle 参数加载图片
-						Image("light_too_high", bundle: pluginBundle)
-							    .resizable()
-							    .scaledToFit()
-							    .frame(height: 120)
+						// 【推荐方式】先尝试加载 UIImage，再转为 SwiftUI Image
+						// 使用 named:in: 方法可以自动处理 @2x, @3x 后缀
+						if let uiImage = UIImage(named: "light_too_high", in: pluginBundle, compatibleWith: nil) {
+						    Image(uiImage: uiImage)
+						        .resizable()
+						        .scaledToFit()
+						        .frame(height: 120)
+						} else {
+						    // 调试代码：如果加载失败，显示一个红块，并打印路径帮助排查
+						    Color.red
+						        .frame(height: 120)
+						        .overlay(Text(Target Bundle Path: \(pluginBundle.bundlePath)).foregroundColor(.white))
+						        .onAppear {
+						            print("❌ Debug: Image load failed.")
+						            print("   Target Bundle Path: \(pluginBundle.bundlePath)")
+						            // 检查文件是否真的存在于该 Bundle 中
+						            let path = pluginBundle.path(forResource: "light_too_high", ofType: "png")
+						            print("   File path: \(path ?? "File NOT found in bundle")")
+						        }
+						}
                         
                         Button(action: {
                             withAnimation {

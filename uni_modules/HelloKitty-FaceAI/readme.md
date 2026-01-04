@@ -1,11 +1,14 @@
-# HelloKitty-FaceAI
+## HelloKitty-FaceAI
+人脸识别，活体检测UTS API插件，支持iOS，Android 双端。
+后面我们会支持主题色定制等功能，更多可根据原生工程项目修改升级插件
 
+## 
 
 
 ## 人脸识别，活体检测状态码
    人脸识别，活体检测状态码含义
 ```
-    public static let DEFAULT = 0
+    public static let DEFAULT = 0                  // 0   初始化状态，流程没有开始
     public static let VERIFY_SUCCESS = 1           // 1   人脸识别对比成功大于设置的threshold
     public static let VERIFY_FAILED = 2            // 2   人脸识别对比识别小于设置的threshold
     public static let MOTION_LIVENESS_SUCCESS = 3  // 3   动作活体检测成功（基本不用，还有后续动作）

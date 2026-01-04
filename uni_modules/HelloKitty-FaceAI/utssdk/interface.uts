@@ -46,9 +46,8 @@ export type LivenessVerify = (
 	
 	
 	
-	
 //「1:1人脸识别」检测人脸是否存在
-export type OnCheckFaceExist = (
+export type GetFaceFeature = (
     faceID: string, 
 	callback: (result: ResultJSON) => void) => void
 	
@@ -58,7 +57,7 @@ export type OnCheckFaceExist = (
  * @param faceFeature 人脸特征值得长度1024.20251202新版本SDK人脸数据合规处理不在接收人脸图参数
  * @param callback 结果回调
  */
-export type InsertFace = (
+export type InsertFaceFeature = (
     faceID : string,
 	faceFeature : string,
 	callback : (result : ResultJSON) => void) => void	

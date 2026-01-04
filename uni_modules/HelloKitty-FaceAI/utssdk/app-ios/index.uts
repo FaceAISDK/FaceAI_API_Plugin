@@ -1,6 +1,4 @@
-import { AddFaceBySDKCamera, FaceVerify, InsertFace, LivenessVerify, OnCheckFaceExist, ResultJSON } from '../interface.uts'
-
-
+import { AddFaceBySDKCamera, FaceVerify, InsertFaceFeature, LivenessVerify, GetFaceFeature, ResultJSON } from '../interface.uts'
 
 /**
  * 实现录入人脸接口
@@ -29,15 +27,14 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
             }
             let feature = FaceSDKSwiftManager.getFaceFeature(faceID)
 
-            const errRes = {
+		    	const resultJson : ResultJSON = {
                 code: resultCode,
                 msg: message,   
                 faceID: faceID,
                 faceFeature: feature,  
                 faceBase64: ""
-            } as ResultJSON;
-            
-            callback(errRes);
+            };
+            callback(resultJson);
         }
     );
 }
@@ -49,8 +46,6 @@ export const addFaceBySDKCamera: AddFaceBySDKCamera = function (
  */
 function getMsgByCode(code: number): string {
     switch (code) {
-        case -2: return " ";
-        case -1: return " ";
         case 0: return "用户取消/中断操作";
         case 1: return "操作成功verifySuccess";  
         case 2: return "人脸相似度过低(认证失败)";
@@ -83,15 +78,14 @@ export const faceVerify : FaceVerify = function (
 		faceLivenessType,
 		motionLivenessTypes,
 	    (resultCode: number) => {
-			
-			const errRes = {
+		    	const resultJson : ResultJSON = {
 			    code: resultCode,
 			    msg: getMsgByCode(resultCode),
 			    faceID: faceID,
-			    faceFeature: "",
-			    faceBase64: ""
-			} as ResultJSON;
-			callback(errRes);
+			    faceFeature: "-",
+			    faceBase64: "-"
+			};
+			callback(resultJson);
 	    }
 	);
 
@@ -107,43 +101,44 @@ export const livenessVerify : LivenessVerify = function (
 	motionLivenessTypes:string,
 	callback : (result : ResultJSON) => void
 ) {
+	let msg = getMsgByCode(resultCode);
 	FaceSDKSwiftManager.showLivenessVerify(
 		faceLivenessType,
 		motionLivenessTypes,
 	    (resultCode: number) => {
-			const errRes = {
-			    code: resultCode,
-			    msg: getMsgByCode(resultCode),
-			    faceID: "",
-			    faceFeature: "",
-			    faceBase64: ""
-			} as ResultJSON;
-			callback(errRes);
+           const resultJson = {
+                code: resultCode,
+                msg: msg,
+                faceID: "-",
+                faceFeature: "-",  
+                faceBase64: "-"    
+            } as ResultJSON;
+			callback(resultJson);
 	    }
 	);
-
 }
+
 
 
 
 /**
  * 「1:1人脸识别」调用原生的FaceAISDK 检测功能人脸是否存在
  */
-export const onCheckFaceExist : OnCheckFaceExist = function 
+export const getFaceFeature : GetFaceFeature = function 
              (faceID : string, callback : (re : ResultJSON) => void) {
 				 
+		let faceFeature= FaceSDKSwiftManager.getFaceFeature(faceID)		 
 		FaceSDKSwiftManager.isFaceFeatureExist(
 			faceID,
 		    (resultCode: number) => {
-				
-				const errRes = {
+		    	const resultJson : ResultJSON = {
 				    code: resultCode,
 				    msg: "1:exist  0:not exist",
 				    faceID: "",
-				    faceFeature: "",
+				    faceFeature: faceFeature,
 				    faceBase64: ""
-				} as ResultJSON;
-				callback(errRes);
+				};
+				callback(resultJson);
 		    }
 		);
 }
@@ -151,7 +146,7 @@ export const onCheckFaceExist : OnCheckFaceExist = function
 /**
  *  「1:1人脸识别」同步人脸图片到SDK，比如用户换设备登陆了，把上次录入到你的业务服务器上的人脸同步就行
  */
-export const insertFace : InsertFace = function 
+export const insertFaceFeature : InsertFaceFeature = function 
               (faceID : string, faceFeature : string, callback : (result : ResultJSON) => void) {
 
         FaceSDKSwiftManager.insertFaceFeature(
@@ -159,14 +154,14 @@ export const insertFace : InsertFace = function
         	faceFeature,
             (resultCode: number) => {
         		
-        		const errRes = {
+		    	const resultJson : ResultJSON = {
         		    code: resultCode,
 				    msg: "1:success  0:failed",
         		    faceID: "",
         		    faceFeature: "",
         		    faceBase64: ""
-        		} as ResultJSON;
-        		callback(errRes);
+        		};
+        		callback(resultJson);
             }
         );
 

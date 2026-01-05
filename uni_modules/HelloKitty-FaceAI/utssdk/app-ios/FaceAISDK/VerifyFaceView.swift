@@ -12,7 +12,7 @@ struct VerifyFaceView: View {
     @State private var showToast = false
     @State private var toastViewTips: String = ""
     
-     @State private var originalBrightness: CGFloat = UIScreen.main.brightness
+    @State private var originalBrightness: CGFloat = UIScreen.main.brightness
     
     // 业务参数
     let faceID: String
@@ -122,12 +122,15 @@ struct VerifyFaceView: View {
                             .fontWeight(.semibold)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
-                            .padding(.horizontal,9)
-                        
-                        Image("light_too_high")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 120)
+                            .padding(.horizontal,25)
+
+
+                        if let uiImage = UIImage(named: "light_too_high") {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxHeight: 120)
+                                        .padding(.horizontal,1)}
                         
                         Button(action: {
                             withAnimation {
@@ -194,6 +197,7 @@ struct VerifyFaceView: View {
                     showLightHighDialog = true
                 }
             }else{
+
                 showToast = true
                 print("检测返回 ： \(viewModel.faceVerifyResult)")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {

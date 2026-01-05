@@ -27,6 +27,24 @@ struct LivenessDetectView: View {
         return NSLocalizedString(key, value: defaultValue, comment: "")
     }
     
+    // 插件使用，定义一个辅助函数来加载图片 (尝试多个位置)
+    func loadResourceImage(named name: String) -> UIImage? {
+        // 1. 获取插件包 (Framework Bundle)
+        let pluginBundle = Bundle(for: BundleFinder.self)
+        
+        // 优先尝试：从插件自己的 Bundle 加载
+        if let image = UIImage(named: name, in: pluginBundle, compatibleWith: nil) {
+            return image
+        }
+        
+        // 备选尝试：从 App 主 Bundle 加载 (HBuilderX 经常把资源拷到这里)
+        if let image = UIImage(named: name, in: Bundle.main, compatibleWith: nil) {
+            return image
+        }
+
+        return nil
+    }
+    
     var body: some View {
         ZStack {
             // --- 底层：主内容 ---
@@ -77,7 +95,6 @@ struct LivenessDetectView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity) // 确保主视图撑满
             .background(viewModel.colorFlash.ignoresSafeArea())
-            // [新增] 隐藏系统导航栏
             .navigationBarBackButtonHidden(true)
             .toolbar(.hidden, for: .navigationBar)
 
@@ -86,7 +103,7 @@ struct LivenessDetectView: View {
                     Spacer() // 将 Toast 推到底部
                     CustomToastView(
                         message: "\(viewModel.faceVerifyResult.tips)",
-                        style: .success  
+                        style: .success
                     )
                      .padding(.bottom, 77)
                 }
@@ -106,28 +123,12 @@ struct LivenessDetectView: View {
                             .foregroundColor(.black)
                             .padding(.horizontal,9)
 
-						let pluginBundle = Bundle(for: BundleFinder.self) 
-							
-						// 【推荐方式】先尝试加载 UIImage，再转为 SwiftUI Image
-						// 使用 named:in: 方法可以自动处理 @2x, @3x 后缀
-						if let uiImage = UIImage(named: "light_too_high", in: pluginBundle, compatibleWith: nil) {
-						    Image(uiImage: uiImage)
-						        .resizable()
-						        .scaledToFit()
-						        .frame(height: 120)
-						} else {
-						    // 调试代码：如果加载失败，显示一个红块，并打印路径帮助排查
-						    Color.red
-						        .frame(height: 120)
-						        .overlay(Text("Target Bundle Path: \(pluginBundle.bundlePath)").foregroundColor(.white))
-						        .onAppear {
-						            print("❌ Debug: Image load failed.")
-						            print("   Target Bundle Path: \(pluginBundle.bundlePath)")
-						            // 检查文件是否真的存在于该 Bundle 中
-						            let path = pluginBundle.path(forResource: "light_too_high", ofType: "png")
-						            print("   File path: \(path ?? "File NOT found in bundle")")
-						        }
-						}
+                        if let uiImage = loadResourceImage(named: "light_too_high") {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 120)
+                        }
                         
                         Button(action: {
                             withAnimation {

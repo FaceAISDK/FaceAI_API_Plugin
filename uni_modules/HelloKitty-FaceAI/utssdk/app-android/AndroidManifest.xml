@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="uts.sdk.modules.uniFaceAISDK">
 
-    <application>
-
+    <application
+        android:largeHeap="true"
+        android:hardwareAccelerated="true">
+		
         <activity
             android:name=".SysCamera.verify.FaceVerificationActivity"
             android:exported="false"

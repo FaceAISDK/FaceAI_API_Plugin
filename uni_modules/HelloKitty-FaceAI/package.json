@@ -1,7 +1,7 @@
 {
 	"id": "HelloKitty-FaceAI",
 	"displayName": "iOS，Android人脸识别+活体检测",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "人脸识别+活体检测；支持iOS 和Android",
 	"keywords": [
         "HelloKitty-FaceAI"

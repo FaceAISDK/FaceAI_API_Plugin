@@ -27,23 +27,7 @@ struct LivenessDetectView: View {
         return NSLocalizedString(key, value: defaultValue, comment: "")
     }
     
-    // 插件使用，定义一个辅助函数来加载图片 (尝试多个位置)
-    func loadResourceImage(named name: String) -> UIImage? {
-        // 1. 获取插件包 (Framework Bundle)
-        let pluginBundle = Bundle(for: BundleFinder.self)
-        
-        // 优先尝试：从插件自己的 Bundle 加载
-        if let image = UIImage(named: name, in: pluginBundle, compatibleWith: nil) {
-            return image
-        }
-        
-        // 备选尝试：从 App 主 Bundle 加载 (HBuilderX 经常把资源拷到这里)
-        if let image = UIImage(named: name, in: Bundle.main, compatibleWith: nil) {
-            return image
-        }
 
-        return nil
-    }
     
     var body: some View {
         ZStack {
@@ -121,14 +105,15 @@ struct LivenessDetectView: View {
                             .fontWeight(.semibold)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
-                            .padding(.horizontal,9)
+                            .padding(.horizontal,25)
 
-                        if let uiImage = loadResourceImage(named: "light_too_high") {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 120)
-                        }
+
+                        if let uiImage = UIImage(named: "light_too_high") {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxHeight: 120)
+                                        .padding(.horizontal,1)}
                         
                         Button(action: {
                             withAnimation {

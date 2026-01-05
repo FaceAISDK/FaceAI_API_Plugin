@@ -10,10 +10,10 @@
   - 2. 按照文档 -》把插件引入项目（即 import { FaceAI } from '@/uni_modules/HelloKitty-FaceAI' 需要先引入），
 
   - 3. 运行-》运行到手机或模拟器 -》制作自定义调试基座 -》打包 等基座制作完成
-    ![制作自定义调试基座](./readme_files/1.png)
+    ![制作自定义调试基座](https://i.postimg.cc/QVZFgycd/1.png)
 
   - 4. 运行 -》 运行到手机或模拟器-》运行到iOS/Android基座-》选择使用自定义基座运行-》选择手机-》运行
-    ![运行到手机](./readme_files/2.png)
+    ![运行到手机](https://i.postimg.cc/QdwtZM60/2.png)
   若之前手机安装过基座需要先卸载之前的基座，iOS 可能会提示你安装好后杀死应进程后重新启动(可以点击几个其他应用加快彻底杀死重启)
   注：只支持真机调试，需要用到硬件摄像头
 

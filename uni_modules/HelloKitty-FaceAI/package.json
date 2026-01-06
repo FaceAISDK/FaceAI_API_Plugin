@@ -1,12 +1,12 @@
 {
 	"id": "HelloKitty-FaceAI",
 	"displayName": "iOS，Android人脸识别+活体检测",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"description": "人脸识别+活体检测；支持iOS 和Android",
 	"keywords": [
         "HelloKitty-FaceAI"
     ],
-	"repository": "",
+	"repository": "https://github.com/FaceAISDK",
 	"engines": {
 		"HBuilderX": "^3.6.8",
 		"uni-app": "^4.71",
@@ -16,19 +16,19 @@
 		"type": "uts",
 		"sale": {
 			"regular": {
-				"price": "0.00"
+				"price": "4999.00"
 			},
 			"sourcecode": {
-				"price": "0.00"
+				"price": "9999.00"
 			}
 		},
 		"contact": {
 			"qq": ""
 		},
 		"declaration": {
-			"ads": "无。\n\n有问题随时沟通，FaceAISDK.Service@gmail.com",
-			"data": "插件可以开飞行模型运行，不收集用户业务数据",
-			"permissions": "仅仅需要相机"
+			"ads": "合并到主工程，请移步: https://ext.dcloud.net.cn/plugin?name=FaceAISDK-Core\n\n有问题随时沟通，FaceAISDK.Service@gmail.com",
+			"data": "合并到主工程，请移步: https://ext.dcloud.net.cn/plugin?name=FaceAISDK-Core",
+			"permissions": "合并到主工程，请移步: https://ext.dcloud.net.cn/plugin?name=FaceAISDK-Core"
 		},
 		"npmurl": "",
 		"darkmode": "x",

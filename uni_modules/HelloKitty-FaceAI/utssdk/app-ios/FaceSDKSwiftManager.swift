@@ -85,11 +85,10 @@ public class FaceSDKSwiftManager: NSObject {
 	    let sdkView = LivenessDetectView(
 	        livenessType: faceLivenessTypeInt,
 	        motionLiveness: motionLivenessTypes, 
-	        onDismiss: { (resultCode: Int) in // 假设 LivenessDetectView 返回的是 Int
+	        onDismiss: { (resultCode: Int) in 
 	            
 	            DispatchQueue.main.async {
 	                hostingController?.dismiss(animated: true) {
-	                    // ✅ 修复点2：显式将 Int 转换为 NSNumber
 	                    let numberCode = NSNumber(value: resultCode)
 	                    callback(numberCode)
 	                }
@@ -130,7 +129,6 @@ public class FaceSDKSwiftManager: NSObject {
                 
                 DispatchQueue.main.async {
                     hostingController?.dismiss(animated: true) {
-                        // ✅ 修复点2：显式将 Int 转换为 NSNumber
                         let numberCode = NSNumber(value: resultCode)
                         callback(numberCode)
                     }

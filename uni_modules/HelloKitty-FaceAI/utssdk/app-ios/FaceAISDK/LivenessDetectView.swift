@@ -20,20 +20,16 @@ struct LivenessDetectView: View {
     
     let onDismiss: (Int) -> Void
     
-    // ... localizedTip 函数保持不变 ...
+    // 可以根据Code进行多语言提示
     private func localizedTip(for code: Int) -> String {
         let key = "Face_Tips_Code_\(code)"
         let defaultValue = "LivenessDetect Tips Code=\(code)"
         return NSLocalizedString(key, value: defaultValue, comment: "")
     }
     
-
-    
     var body: some View {
         ZStack {
-            // --- 底层：主内容 ---
             VStack {
-                // MARK: - [新增] 自定义顶部栏 (关闭按钮)
                 HStack {
                     Button(action: {
                         // 0 代表用户取消
@@ -59,7 +55,7 @@ struct LivenessDetectView: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 9)
                     .foregroundColor(.white)
-                    .background(Color.brown) //假设 Color.brown 为 blue
+                    .background(Color.brown)  
                     .cornerRadius(20)
                 
                 Text(localizedTip(for: viewModel.sdkInterfaceTipsExtra.code))
@@ -96,7 +92,7 @@ struct LivenessDetectView: View {
                 .zIndex(1) // 确保在最上层
             }
             
-            // --- 顶层：光线过强自定义弹窗 (Dialog) ---
+            // 光线过强自定义弹窗 (Dialog) ---
             if showLightHighDialog {
                 ZStack {
                     VStack(spacing: 22) {
@@ -139,7 +135,7 @@ struct LivenessDetectView: View {
                     .padding(.horizontal, 30) // 设置弹窗左右边距
                 }
                 .zIndex(2) // 确保在最上层 (比 Toast 更高)
-                .transition(.scale(scale: 0.8).combined(with: .opacity)) // 添加出现动画
+                .transition(.scale(scale: 0.8).combined(with: .opacity))
             }
             
         }
@@ -153,8 +149,7 @@ struct LivenessDetectView: View {
         }
         .onChange(of: viewModel.faceVerifyResult.code) { newValue in
             if newValue == VerifyResultCode.COLOR_LIVENESS_LIGHT_TOO_HIGH{
-                //光线太强了，弹出一个提示Dialog, 上面显示文字viewModel.Result.msg
-                withAnimation {
+                withAnimation {  //光线太强了
                     showLightHighDialog = true
                 }
             }else{
@@ -179,5 +174,4 @@ struct LivenessDetectView: View {
         .animation(.easeInOut(duration: 0.3), value: showToast) // 统一控制 Toast 动画
     }
 }
-// 添加这个空类，专门用来定位 Bundle
-private class BundleFinder {}
+

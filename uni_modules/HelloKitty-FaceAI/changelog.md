@@ -1,3 +1,5 @@
+## 1.1.0（2026-01-06）
+合并到主工程，请移步: https://ext.dcloud.net.cn/plugin?name=FaceAISDK-Core
 ## 1.0.3（2026-01-05）
 1 .iOS SDK 更新为稳定版本
 ## 1.0.2（2026-01-05）

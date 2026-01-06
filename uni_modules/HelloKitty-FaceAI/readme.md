@@ -6,9 +6,9 @@
 iOS SDK： https://github.com/FaceAISDK/FaceAISDK_iOS
 Android： https://github.com/FaceAISDK/FaceAISDK_Android
 
-![demo](https://i.postimg.cc/LXfzpb4z/da-da165b6781-fu-ben.png
-)
+![demo](https://i.postimg.cc/LXfzpb4z/da-da165b6781-fu-ben.png)
 
+注：iOS 插件使用MacOS 开发,真机iPhone系统26（Window有问题联系FaceAISDK.Service@gmail.com）
 
 ## 使用方法
   如果你是第一次运行UTS插件工程/引入UTS API插件，你应先安装官方说明配置好基础环境 [基础环境](https://doc.dcloud.net.cn/uni-app-x/plugin/uts-plugin.html) 
@@ -24,7 +24,6 @@ Android： https://github.com/FaceAISDK/FaceAISDK_Android
     ![运行到手机](https://i.postimg.cc/QdwtZM60/2.png)
   若之前手机安装过基座需要先卸载之前的基座，iOS 可能会提示你安装好后杀死应进程后重新启动(可以点击几个其他应用加快彻底杀死重启)
   注：只支持真机调试，需要用到硬件摄像头
-
 
 
 

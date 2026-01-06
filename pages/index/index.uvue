@@ -122,6 +122,27 @@
 					})
 			},
 			
+			// --- 1:N人脸搜索识别 Android新的页面演示吧---
+			faceSearchDemoPage: function () {
+				const systemInfo = uni.getSystemInfoSync();
+				const platform = systemInfo.platform;
+				
+				if (platform === 'android') {
+					// Android 设备，执行跳转到 faceSearch.uvue 页面
+					uni.navigateTo({
+						url: '/pages/index/faceSearch' // 请确保你的 faceSearch 页面路径正确
+					});					
+				} else if (platform === 'ios') {
+					// iOS 设备，提供提示信息
+					this.faceAIResult = "iOS 平台人脸搜索请自行参考文档实现！";
+					uni.showToast({
+						title: 'iOS人脸搜索功能请参考文档',
+						icon: 'none',
+						duration: 2000
+					});
+				} 
+			}
+			
 
 	   }			
 

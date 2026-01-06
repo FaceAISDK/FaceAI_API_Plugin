@@ -6,6 +6,10 @@
 iOS SDK： https://github.com/FaceAISDK/FaceAISDK_iOS
 Android： https://github.com/FaceAISDK/FaceAISDK_Android
 
+![demo](https://i.postimg.cc/LXfzpb4z/da-da165b6781-fu-ben.png
+)
+
+
 ## 使用方法
   如果你是第一次运行UTS插件工程/引入UTS API插件，你应先安装官方说明配置好基础环境 [基础环境](https://doc.dcloud.net.cn/uni-app-x/plugin/uts-plugin.html) 
 

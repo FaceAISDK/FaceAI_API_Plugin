@@ -1,6 +1,8 @@
 ## HelloKitty-FaceAI
 
-**本插件后续合并到：https://ext.dcloud.net.cn/plugin?name=FaceAISDK-Core**  
+**本插件后续合并到：https://ext.dcloud.net.cn/plugin?id=23881**    
+**本插件后续合并到：https://ext.dcloud.net.cn/plugin?id=23881**    
+**本插件后续合并到：https://ext.dcloud.net.cn/plugin?id=23881**    
 
 
 人脸识别，活体检测UTS API插件，支持iOS，Android 双端。

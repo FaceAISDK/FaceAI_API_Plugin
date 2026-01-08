@@ -1,16 +1,10 @@
 ## HelloKitty-FaceAI
-
-**本插件后续合并到：https://ext.dcloud.net.cn/plugin?id=23881**    
-**本插件后续合并到：https://ext.dcloud.net.cn/plugin?id=23881**    
-**本插件后续合并到：https://ext.dcloud.net.cn/plugin?id=23881**    
-
 人脸识别，活体检测UTS API插件，支持iOS，Android 双端。
 后面我们会支持主题色定制等功能，更多可根据原生工程项目修改升级插件
 
+**已经合并到主工程：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS**  
+**本插件后续合并到：https://ext.dcloud.net.cn/plugin?name=FaceAISDK-Core**  
 
-**原生工程：**  
-iOS SDK： https://github.com/FaceAISDK/FaceAISDK_iOS
-Android： https://github.com/FaceAISDK/FaceAISDK_Android
 
 ## 使用方法
   如果你是第一次运行UTS插件工程/引入UTS API插件，你应先安装官方说明配置好基础环境 [基础环境](https://doc.dcloud.net.cn/uni-app-x/plugin/uts-plugin.html) 
